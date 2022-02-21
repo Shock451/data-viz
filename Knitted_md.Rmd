@@ -1,0 +1,85 @@
+---
+title: "Week_4_script_2"
+author: "Oladosu Abdullahi Ayobami"
+date: "2/21/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r week4labs}
+# set working directory.
+setwd("~/Documents/R")
+
+# install packages to be used
+install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+install.packages("datasauRus",repos = "http://cran.us.r-project.org")
+install.packages("gridExtra" ,repos = "http://cran.us.r-project.org")
+
+# load packages
+library(datasauRus)
+library(tidyverse)
+library(ggplot2)
+library(gridExtra)
+library(grid)
+
+# to import a csv
+plastic_waste_dataset <- readr::read_csv("~/Documents/R/plastic-waste.csv")
+
+# to view the content of the variable
+view(plastic_waste_dataset)
+
+# to get docs on a particular term
+?NA
+
+# create a histogram with the plastic_waste 
+# dataset using the plastic_waste_per_cap column
+ggplot(
+  data = plastic_waste_dataset,
+  mapping = aes(
+    y = plastic_waste_per_cap,
+    x = mismanaged_plastic_waste_per_cap,
+    color = continent # shows single line if omitted
+  )
+) + 
+  geom_point() + 
+  # draw line of best fit. Draws a curve w/o args
+  geom_smooth(method="lm")
+
+# create a plot of plastic_waste_per_capita vs total population
+plot_1 <- ggplot(
+  data = plastic_waste_dataset,
+  mapping = aes(
+    y = plastic_waste_per_cap,
+    x = total_pop,
+  )
+) + 
+  geom_point()
+
+# create a plot of plastic_waste_per_capita vs coastal population
+plot_2 <- ggplot(
+  data = plastic_waste_dataset,
+  mapping = aes(
+    y = plastic_waste_per_cap,
+    x = coastal_pop,
+  )
+)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
